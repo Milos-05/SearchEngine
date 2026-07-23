@@ -25,11 +25,7 @@ public class WikiHttpFetcher {
                 System.err.println("Bad request"+response.statusCode());
                 return null;
             }
-            System.out.println(response.uri());
-            System.out.println(response.headers());
-            System.out.println("----");
-            Document doc= Jsoup.parse(response.body(),url);
-            return doc;
+            return Jsoup.parse(response.body(),url);
         } catch (IllegalArgumentException e) {
             System.err.println("Invalid URL: " + url);
             return null;
