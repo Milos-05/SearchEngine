@@ -14,6 +14,7 @@ public class Crawler {
     private final WikiHttpFetcher fetcher;
     private final Set<String> visited;
     private final RateLimiter rateLimiter;
+    private PageParser pageParser;
 
     private static final int MAX_REQUESTS = 1_000_000;
     private static final double RATE = 3.0;
@@ -24,6 +25,7 @@ public class Crawler {
         visited = ConcurrentHashMap.newKeySet();
         rateLimiter=RateLimiter.create(RATE);
         executor = Executors.newVirtualThreadPerTaskExecutor();
+        pageParser = new PageParser();
     }
     public void start(){
         Url input=new Url("https://en.wikipedia.org/wiki/Java_(programming_language)",null);
@@ -46,7 +48,7 @@ public class Crawler {
                     }
                     String text=getText(doc);
                     if(text!=null) {
-                        Main.pageTexts.add(new PageContent(text,url.getUrl()));
+                        pageParser.getPages().add(new PageContent(text,url.getUrl()));
                     }
                     Elements wikiLinks = doc.select("a[rel=mw:WikiLink]");
                     int count=wikiLinks.size();
