@@ -2,6 +2,8 @@ package org;
 
 import lombok.Getter;
 import org.Utils.Tokenizer;
+import org.model.PageContent;
+import org.model.PageMetaData;
 
 import java.util.List;
 import java.util.concurrent.*;
@@ -22,8 +24,6 @@ public class PageParser {
         while (!pages.isEmpty()) {
             executor.submit(this::index);
         }
-        System.out.println(repository.invertedIndex);
-        System.out.println(repository.metaData);
     }
 
     private  void index() {

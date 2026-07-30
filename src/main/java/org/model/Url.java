@@ -1,6 +1,5 @@
-package org;
+package org.model;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 

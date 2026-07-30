@@ -1,16 +1,16 @@
 package org;
 
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import org.model.PageMetaData;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 @Data
 public class PageRepository {
-     Map<String,Map<Integer,Integer>> invertedIndex;
-     Map<Integer,Integer> wordCount;
-     Map<Integer,PageMetaData> metaData;
+    private Map<String,Map<Integer,Integer>> invertedIndex;
+    private Map<Integer,Integer> wordCount;
+    private Map<Integer, PageMetaData> metaData;
+
     public PageRepository(){
         invertedIndex=new ConcurrentHashMap<>();
         wordCount=new ConcurrentHashMap<>();

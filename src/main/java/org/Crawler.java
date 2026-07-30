@@ -4,6 +4,8 @@ import com.google.common.util.concurrent.RateLimiter;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.model.PageContent;
+import org.model.Url;
 
 import java.util.Set;
 import java.util.concurrent.*;
@@ -18,12 +20,12 @@ public class Crawler {
     private final RateLimiter rateLimiter;
     private final PageParser pageParser;
 
-    private static final int MAX_REQUESTS = 20;
+    private static final int MAX_REQUESTS = 1_000_000;
     private static final double RATE = 3.0;
 
-    public Crawler(PageParser parser) {
+    public Crawler(PageParser parser, WikiHttpFetcher fetcher) {
         urlQueue = new LinkedBlockingQueue<>();
-        fetcher = new WikiHttpFetcher();
+        this.fetcher=fetcher;
         visited = ConcurrentHashMap.newKeySet();
         rateLimiter=RateLimiter.create(RATE);
         executor = Executors.newVirtualThreadPerTaskExecutor();
