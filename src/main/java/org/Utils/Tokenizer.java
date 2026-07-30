@@ -1,11 +1,8 @@
-package org;
+package org.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Set;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -31,7 +28,7 @@ public class Tokenizer {
 
     private static final Pattern PATTERN=Pattern.compile("[a-zA-Z0-9]+");
 
-    public List<String> tokenize(String raw){
+    public static List<String> tokenize(String raw){
         if(raw == null || raw=="")return List.of();
 
         Matcher matcher=PATTERN.matcher(raw.toLowerCase());

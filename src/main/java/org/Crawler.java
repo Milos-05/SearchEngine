@@ -18,7 +18,7 @@ public class Crawler {
     private final RateLimiter rateLimiter;
     private final PageParser pageParser;
 
-    private static final int MAX_REQUESTS = 1_000_000;
+    private static final int MAX_REQUESTS = 20;
     private static final double RATE = 3.0;
 
     public Crawler(PageParser parser) {
@@ -59,7 +59,7 @@ public class Crawler {
     private void getLingsAndAddThemToQueue(Document doc, Url url) {
         Elements wikiLinks = doc.select("a[rel=mw:WikiLink]");
         int count=wikiLinks.size();
-        System.out.println(": Added url: " + url +" added "+count+" new urls, and total urls waiting="+urlQueue.size());
+        System.out.println("Added url: " + url +" added "+count+" new urls, and total urls waiting="+urlQueue.size());
         for (Element element : wikiLinks) {
             String link = element.attr("abs:href");
             if(visited.add(link)) {
