@@ -8,13 +8,15 @@ import org.jsoup.select.Elements;
 import java.util.Set;
 import java.util.concurrent.*;
 
+import static org.Utils.TextExtractor.getText;
+
 public class Crawler {
     private final BlockingQueue<Url> urlQueue;
     private final ExecutorService executor;
     private final WikiHttpFetcher fetcher;
     private final Set<String> visited;
     private final RateLimiter rateLimiter;
-    private PageParser pageParser;
+    private final PageParser pageParser;
 
     private static final int MAX_REQUESTS = 1_000_000;
     private static final double RATE = 3.0;
@@ -33,7 +35,6 @@ public class Crawler {
         visited.add(input.getUrl());
        for(int i=0;i<MAX_REQUESTS;i++){
             rateLimiter.acquire();
-
             executor.submit(this::processUrl);
         }
     }
@@ -51,7 +52,7 @@ public class Crawler {
             getLingsAndAddThemToQueue(doc, url);
 
         } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+            Thread.currentThread().interrupt();
         }
     }
 
@@ -77,12 +78,6 @@ public class Crawler {
         return doc;
     }
 
-    private String getText(Document document){
-        Element content = document.selectFirst("#mw-content-text");
-        if(content==null)return null;
-        document.select("table.ambox, div.hatnote, div.sbox, span.mw-editsection").remove();
-        return content.text();
-    }
     private void addDocumentToParser(Document doc,Url url){
         String text=getText(doc);
         if(text!=null) {
