@@ -51,14 +51,14 @@ public class Crawler {
 
             addDocumentToParser(doc, url);
 
-            getLingsAndAddThemToQueue(doc, url);
+            getLinksAndAddThemToQueue(doc, url);
 
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
     }
 
-    private void getLingsAndAddThemToQueue(Document doc, Url url) {
+    private void getLinksAndAddThemToQueue(Document doc, Url url) {
         Elements wikiLinks = doc.select("a[rel=mw:WikiLink]");
         int count=wikiLinks.size();
         System.out.println("Added url: " + url +" added "+count+" new urls, and total urls waiting="+urlQueue.size());
